@@ -17,17 +17,17 @@ class CNNModel(nn.Module):
 		##-----------------------------------------------------------
 		
 		## define CNN layers below
-		self.conv1 = nn.Sequential( nn.Conv2d(1, 32, kernel_size=5),
+		self.conv1 = nn.Sequential( nn.Conv2d(1, 32, kernel_size=3),
 									nn.ReLU(),
 									nn.MaxPool2d(kernel_size=2),
 									nn.Dropout(0.2),
 								)
-		self.conv2 = nn.Sequential( nn.Conv2d(32, 32, kernel_size=5),
+		self.conv2 = nn.Sequential( nn.Conv2d(32, 32, kernel_size=3),
 									nn.ReLU(),
 									nn.MaxPool2d(kernel_size=2),
 									nn.Dropout(0.2),
 								)
-		self.conv3 = nn.Sequential( nn.Conv2d(32, 64, kernel_size=5),
+		self.conv3 = nn.Sequential( nn.Conv2d(32, 64, kernel_size=3),
 									nn.ReLU(),
 									nn.MaxPool2d(kernel_size=2),
 									nn.Dropout(0.2),
