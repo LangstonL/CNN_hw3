@@ -105,7 +105,7 @@ def main():
 
 	use_cuda = torch.cuda.is_available() ## if have gpu or cpu 
 	device = torch.device("cuda" if use_cuda else "cpu")
-	torch.cuda.set_device(device=0) ## choose gpu number 0
+	#torch.cuda.set_device(device=0) ## choose gpu number 0
 	print("device: ", device)
 	if use_cuda:
 		torch.cuda.manual_seed(72)
@@ -114,12 +114,13 @@ def main():
 	num_epoches = args.num_epoches
 	decay = args.decay
 	learning_rate = args.learning_rate
+	batch_size = args.batch_size
 	ckp_path = 'checkpoint/'
 	
 
 	## step 1: Load data
 	DATA_PATH = "./data/"
-	train_loader, test_loader=_load_data(DATA_PATH, args.batch_size)
+	train_loader, test_loader=_load_data(DATA_PATH, batch_size)
 
 	##-------------------------------------------------------
 	## please write the code about model initialization below
@@ -138,7 +139,12 @@ def main():
 	## load checkpoint below if you need
 	##--------------------------------------------
 	# if args.load_checkpoint:
-		## write load checkpoint code below
+	# 	## load checkpoint from ckp+path='checkpoint/step_100.pt
+	# 	checkpoint = torch.load(ckp_path)
+	# 	## load params to models
+	# 	model.load_state_dict(checkpoint['model_state_dict'])
+	# 	optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+	# 	epoches = checkpoint['epoch']
 
 	
 	##  model training
@@ -174,7 +180,7 @@ def main():
 				##------------------------------------------------------
 				# _, y_pred = torch.max(output_y.data, 1)
 				y_pred = torch.argmax(output_y.data, 1)
-				accy = _compute_accuracy(y_pred, y_labels)/args.batch_size
+				accy = _compute_accuracy(y_pred, y_labels)/batch_size
 				
 				
 				##----------------------------------------------------------
