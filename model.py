@@ -9,7 +9,7 @@ import torch.nn as nn
 class CNNModel(nn.Module):
 	"""docstring for ClassName"""
 	
-	def __init__(self, args):
+	def __init__(self):
 		super(CNNModel, self).__init__()
 		##-----------------------------------------------------------
 		## define the model architecture here
