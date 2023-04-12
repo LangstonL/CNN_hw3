@@ -5,15 +5,14 @@ Fun: CNN for MNIST classification
 
 import numpy as np
 import time
-import h5py
 import argparse
-import os.path
+#import os.path
 import torch
 from torch.autograd import Variable
 import torch.nn as nn
 import torch.optim as optim
 # from util import _create_batch
-import json
+#import json
 import torchvision
 # from torch.utils.tensorboard import SummaryWriter
 import torchvision.transforms as transforms
