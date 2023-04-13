@@ -17,31 +17,53 @@ class CNNModel(nn.Module):
 		##-----------------------------------------------------------
 		
 		## define CNN layers below
-		self.conv1 = nn.Sequential( nn.Conv2d(1, 32, kernel_size=3),
-									nn.ReLU(),
-									nn.MaxPool2d(kernel_size=2),
-									nn.Dropout(0.2),
-								)
-		self.conv2 = nn.Sequential( nn.Conv2d(32, 32, kernel_size=3),
-									nn.ReLU(),
-									nn.MaxPool2d(kernel_size=2),
-									nn.Dropout(0.2),
-								)
-		self.conv3 = nn.Sequential( nn.Conv2d(32, 64, kernel_size=3),
-									nn.ReLU(),
-									nn.MaxPool2d(kernel_size=2),
-									nn.Dropout(0.2),
-								)
+		# self.conv1 = nn.Sequential( nn.Conv2d(1, 32, kernel_size=3),
+		# 							nn.ReLU(),
+		# 							nn.MaxPool2d(kernel_size=2),
+		# 							nn.Dropout(0.2),
+		# 						)
+		# self.conv2 = nn.Sequential( nn.Conv2d(32, 32, kernel_size=3),
+		# 							nn.ReLU(),
+		# 							nn.MaxPool2d(kernel_size=2),
+		# 							nn.Dropout(0.2),
+		# 						)
+		# self.conv3 = nn.Sequential( nn.Conv2d(32, 64, kernel_size=3),
+		# 							nn.ReLU(),
+		# 							nn.MaxPool2d(kernel_size=2),
+		# 							nn.Dropout(0.2),
+		# 						)
+		self.conv_layers = nn.Sequential( 	
+			#1st conv layer, output = (28 - 3)/1 + 1 = 26
+			nn.Conv2d(1, 32, kernel_size=5),
+			nn.ReLU(),
+			#nn.MaxPool2d(kernel_size=2),
+			#2nd conv layer, output = 12 -5 +1 = 8 / 2 = 4
+			nn.Conv2d(32, 32, kernel_size=5),
+			nn.ReLU(),
+			nn.MaxPool2d(kernel_size=2),
+			nn.Dropout(0.2),
+			#3rd conv layer, output =4-5
+			nn.Conv2d(32, 64, kernel_size=5),
+			nn.ReLU(),
+			nn.MaxPool2d(kernel_size=2),
+			nn.Dropout(0.2)
+		)
 		##------------------------------------------------
 		## write code to define fully connected layer below
 		##------------------------------------------------
-		self.fc1 = nn.Sequential( 	nn.Linear(3*3*64, 256),
-									nn.ReLU(),
-									nn.MaxPool2d(kernel_size=2),
-									nn.Dropout(0.2),
-								)
-		self.fc2 = nn.Linear(256, 10)
+		# self.fc1 = nn.Sequential( 	nn.Linear(3*3*64, 256),
+		# 							nn.ReLU(),
+		# 							nn.MaxPool2d(kernel_size=2),
+		# 							nn.Dropout(0.2),
+		# 						)
+		# self.fc2 = nn.Linear(256, 10)
 		
+		self.fc_layers = nn.Seqential(
+			nn.Linear(3*3*64, 256),
+			nn.ReLU(),
+			nn.Dropout(0.2),
+			nn.Linear(256, 10)
+		)
 
 	'''feed features to the model'''
 	def forward(self, x):  #default
@@ -49,22 +71,19 @@ class CNNModel(nn.Module):
 		##---------------------------------------------------------
 		## write code to feed input features to the CNN models defined above
 		##---------------------------------------------------------
-		x = self.conv1(x)
-		x = self.conv2(x)
-		x = self.conv3(x)
+		x = self.conv_layers(x)
 		## write flatten tensor code below (it is done)
 		#x = torch.flatten(x_out,1) # x_out is output of last layer
-		x = x.view(x.size(0), -1)  
-		x = self.fc1
+		x = x.view(-1, 3*3*64)  
+		x = self.fc_layers(x)
 
 
 		## ---------------------------------------------------
 		## write fully connected layer (Linear layer) below
 		## ---------------------------------------------------
-		result = self.fc2(x)
 		
 		
-		return result, x
+		return x
         
 		
 		
