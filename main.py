@@ -186,14 +186,14 @@ def main():
 				## if use loss.item(), you may use log txt files to save loss
 				##----------------------------------------------------------
 				if (i+1)%100==0:
-					print('iter: {} loss: {}, accy: {}'.format(iter, loss.item(), accy))
+					print('iter: {} loss: {}, accy: {}'.format(i, loss.item(), accy))
 					wandb.log({'iter': iter, 'loss': loss.item()})
 					wandb.log({'iter': iter, 'accy': accy})
 
 			## -------------------------------------------------------------------
 			## save checkpoint below (optional), every "epoch" save one checkpoint
 			## -------------------------------------------------------------------
-			_save_checkpoint(ckp_path, model, epoch, optimizer, iter)
+			#_save_checkpoint(ckp_path, model, epoch, optimizer, iter)
 			
 				
 
