@@ -148,15 +148,13 @@ def main():
 
 	
 	##  model training
-	iter = 0
 	if args.mode == 'train':
 		model = model.train() ## model training
 		for epoch in range(num_epoches): #10-50
 			## learning rate
 			adjust_learning_rate(learning_rate, optimizer, epoch, decay)
 			
-			for batch_id, (x_batch,y_labels) in enumerate(train_loader):
-				iter += 1
+			for i, (x_batch,y_labels) in enumerate(train_loader):
 				x_batch,y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
 
 				## feed input data x into model
@@ -187,7 +185,7 @@ def main():
 				## loss.item() or use tensorboard to monitor the loss blow
 				## if use loss.item(), you may use log txt files to save loss
 				##----------------------------------------------------------
-				if iter%10==0:
+				if (i+1)%100==0:
 					print('iter: {} loss: {}, accy: {}'.format(iter, loss.item(), accy))
 					wandb.log({'iter': iter, 'loss': loss.item()})
 					wandb.log({'iter': iter, 'accy': accy})
@@ -206,7 +204,7 @@ def main():
 	accy_ct=0
 	model.eval()
 	with torch.no_grad():
-		for batch_id, (x_batch,y_labels) in enumerate(test_loader):
+		for (x_batch,y_labels) in enumerate(test_loader):
 			x_batch, y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
 			##---------------------------------------
 			## write the predict result below
