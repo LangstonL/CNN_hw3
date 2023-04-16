@@ -60,7 +60,7 @@ class CNNModel(nn.Module):
 		# self.fc2 = nn.Linear(256, 10)
 		
 		self.fc_layers = nn.Sequential(
-			nn.Linear(27000, 256),
+			nn.Linear(147000, 256),
 			nn.ReLU(),
 			nn.Dropout(0.2),
 			nn.Linear(256, 10)
@@ -75,7 +75,7 @@ class CNNModel(nn.Module):
 		x = self.conv_layers(x)
 		## write flatten tensor code below (it is done)
 		#x = torch.flatten(x_out,1) # x_out is output of last layer
-		x = x.view(-1, 27000)  
+		x = x.view(-1, 147000)  
 		x = self.fc_layers(x)
 
 
