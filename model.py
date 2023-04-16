@@ -35,20 +35,17 @@ class CNNModel(nn.Module):
 		self.conv_layers = nn.Sequential( 	
 			#1st conv layer
 			nn.Conv2d(in_channels=1, out_channels=10, kernel_size=3, stride=1, padding=1),
-			nn.MaxPool2d(2,2),
 			nn.ReLU(),
-			nn.BatchNorm2d(10),
-			nn.Dropout(0.2),
 			#2nd conv layer
 			nn.Conv2d(in_channels=10, out_channels=20, kernel_size=3, stride=1, padding=1),
-            nn.MaxPool2d(2, 2), 
-			nn.ReLU(), 
+            nn.ReLU(),
+			nn.MaxPool2d(2,2),
 			nn.BatchNorm2d(20),
 			nn.Dropout(0.2),
 			#3rd conv layer, output =4-5
 			nn.Conv2d(in_channels=20, out_channels=30, kernel_size=3, stride=1, padding=1),
-            nn.MaxPool2d(2, 2), 
-			nn.ReLU(), 
+            nn.ReLU(),
+			nn.MaxPool2d(2,2),
 			nn.BatchNorm2d(30),
 			nn.Dropout(0.2),
 		)
