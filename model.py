@@ -33,20 +33,24 @@ class CNNModel(nn.Module):
 		# 							nn.Dropout(0.2),
 		# 						)
 		self.conv_layers = nn.Sequential( 	
-			#1st conv layer, output = (28 - 3)/1 + 1 = 26
-			nn.Conv2d(1, 32, kernel_size=5),
+			#1st conv layer
+			nn.Conv2d(in_channels=1, out_channels=10, kernel_size=3, stride=1, padding=1),
+			nn.MaxPool2d(2,2),
 			nn.ReLU(),
-			#nn.MaxPool2d(kernel_size=2),
-			#2nd conv layer, output = 12 -5 +1 = 8 / 2 = 4
-			nn.Conv2d(32, 32, kernel_size=5),
-			nn.ReLU(),
-			nn.MaxPool2d(kernel_size=2),
+			nn.BatchNorm2d(10),
+			nn.Dropout(0.2),
+			#2nd conv layer
+			nn.Conv2d(in_channels=10, out_channels=20, kernel_size=3, stride=1, padding=1),
+            nn.MaxPool2d(2, 2), 
+			nn.ReLU(), 
+			nn.BatchNorm2d(20),
 			nn.Dropout(0.2),
 			#3rd conv layer, output =4-5
-			nn.Conv2d(32, 64, kernel_size=5),
-			nn.ReLU(),
-			nn.MaxPool2d(kernel_size=2),
-			nn.Dropout(0.2)
+			nn.Conv2d(in_channels=20, out_channels=30, kernel_size=3, stride=1, padding=1),
+            nn.MaxPool2d(2, 2), 
+			nn.ReLU(), 
+			nn.BatchNorm2d(30),
+			nn.Dropout(0.2),
 		)
 		##------------------------------------------------
 		## write code to define fully connected layer below
@@ -59,7 +63,7 @@ class CNNModel(nn.Module):
 		# self.fc2 = nn.Linear(256, 10)
 		
 		self.fc_layers = nn.Sequential(
-			nn.Linear(3*3*64, 256),
+			nn.Linear(7*7*30, 256),
 			nn.ReLU(),
 			nn.Dropout(0.2),
 			nn.Linear(256, 10)
@@ -74,7 +78,7 @@ class CNNModel(nn.Module):
 		x = self.conv_layers(x)
 		## write flatten tensor code below (it is done)
 		#x = torch.flatten(x_out,1) # x_out is output of last layer
-		x = x.view(-1, 3*3*64)  
+		x = x.view(-1, 7*7*30)  
 		x = self.fc_layers(x)
 
 
