@@ -73,6 +73,7 @@ class CNNModel(nn.Module):
 		## write code to feed input features to the CNN models defined above
 		##---------------------------------------------------------
 		x = self.conv_layers(x)
+		print(x.shape)
 		## write flatten tensor code below (it is done)
 		#x = torch.flatten(x_out,1) # x_out is output of last layer
 		x = x.view(-1, 147000)  
