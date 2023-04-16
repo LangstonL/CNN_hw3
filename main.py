@@ -185,7 +185,7 @@ def main():
 				## loss.item() or use tensorboard to monitor the loss blow
 				## if use loss.item(), you may use log txt files to save loss
 				##----------------------------------------------------------
-				if (i+1)%100==0:
+				if i%100==0:
 					print('iter: {} loss: {}, accy: {}'.format(i, loss.item(), accy))
 					wandb.log({'iter': iter, 'loss': loss.item()})
 					wandb.log({'iter': iter, 'accy': accy})
@@ -204,20 +204,19 @@ def main():
 	accy_ct=0
 	model.eval()
 	with torch.no_grad():
-		for (x_batch,y_labels) in enumerate(test_loader):
-			x_batch, y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
+		for (imgs, labels) in test_loader:
+			imgs, labels = imgs.to(device), labels.to(device)
 			##---------------------------------------
 			## write the predict result below
 			##---------------------------------------
-			output_y = model(x_batch)
-			y_pred = torch.argmax(output_y.data, 1)
+			outputs = model(imgs)
+			y_pred = torch.argmax(outputs.data, 1)
 			
-
 			##--------------------------------------------------
 			## complete code for computing the accuracy below
 			##---------------------------------------------------
-			total += len(y_labels)
-			accy_ct += _compute_accuracy(y_pred, y_labels)
+			total += labels.size(0)
+			accy_ct += _compute_accuracy(y_pred, labels)
 	accy = accy_ct/total
 	print('testing accy: ', accy)
 	
